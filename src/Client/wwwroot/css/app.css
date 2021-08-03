@@ -1,183 +1,197 @@
-﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-a, .btn-link {
-    color: #0366d6;
-}
-
-.btn-primary {
+﻿.menu-list .active-link,
+.menu-list .router-link-active {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #00b3e6;
 }
 
-app {
-    position: relative;
-    display: flex;
-    flex-direction: column;
+.not-found i {
+    font-size: 20px;
+    margin-right: 8px;
 }
 
-.top-row {
-    height: 3.5rem;
-    display: flex;
-    align-items: center;
+.not-found .title {
+    letter-spacing: 0;
+    font-weight: 400;
+    font-size: 24px;
+    text-transform: none;
 }
 
-.main {
-    flex: 1;
+header {
+    font-weight: 700;
+    font-family: Arial;
 }
 
-    .main .top-row {
-        background-color: #f7f7f7;
-        border-bottom: 1px solid #d6d5d5;
-        justify-content: flex-end;
+    header span {
+        letter-spacing: 0;
     }
 
-        .main .top-row > a, .main .top-row .btn-link {
-            white-space: nowrap;
-            margin-left: 1.5rem;
+        header span.brand-first {
+            color: #fff;
         }
 
-.main .top-row a:first-child {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
-}
-
-    .sidebar .top-row {
-        background-color: rgba(0,0,0,0.4);
-    }
-
-    .sidebar .navbar-brand {
-        font-size: 1.1rem;
-    }
-
-    .sidebar .oi {
-        width: 2rem;
-        font-size: 1.1rem;
-        vertical-align: text-top;
-        top: -2px;
-    }
-
-    .sidebar .nav-item {
-        font-size: 0.9rem;
-        padding-bottom: 0.5rem;
-    }
-
-        .sidebar .nav-item:first-of-type {
-            padding-top: 1rem;
+        header span.brand-second {
+            color: #ccc;
         }
 
-        .sidebar .nav-item:last-of-type {
-            padding-bottom: 1rem;
+        header span.brand-third {
+            color: #61dafb;
         }
 
-        .sidebar .nav-item a {
-            color: #d7d7d7;
-            border-radius: 4px;
-            height: 3rem;
-            display: flex;
-            align-items: center;
-            line-height: 3rem;
+    header .navbar-item.nav-home {
+        border: 3px solid transparent;
+        border-radius: 0;
+    }
+
+        header .navbar-item.nav-home:hover {
+            border-right: 3px solid #61dafb;
+            border-left: 3px solid #61dafb;
         }
 
-            .sidebar .nav-item a.active {
-                background-color: rgba(255,255,255,0.25);
-                color: white;
-            }
+    header .fab {
+        font-size: 24px;
+    }
 
-            .sidebar .nav-item a:hover {
-                background-color: rgba(255,255,255,0.1);
-                color: white;
-            }
+        header .fab.js-logo {
+            color: #61dafb;
+        }
 
-.content {
-    padding-top: 1.1rem;
+    header .buttons i.fab {
+        color: #fff;
+        margin-left: 20px;
+        margin-right: 10px;
+    }
+
+        header .buttons i.fab:hover {
+            color: #61dafb;
+        }
+
+.edit-detail .input[readonly] {
+    background-color: #fafafa;
 }
 
-.navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
+.edit-detail .input::-webkit-input-placeholder {
+    color: #ccc;
+    font-style: italic;
 }
 
-.valid.modified:not([type=checkbox]) {
-    outline: 1px solid #26b050;
+.edit-detail .input::-ms-input-placeholder {
+    color: #ccc;
+    font-style: italic;
 }
 
-.invalid {
-    outline: 1px solid red;
+.edit-detail .input::placeholder {
+    color: #ccc;
+    font-style: italic;
 }
 
-.validation-message {
-    color: red;
+.content-title-group {
+    margin-bottom: 16px;
 }
 
-#blazor-error-ui {
-    background: lightyellow;
-    bottom: 0;
-    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
-    display: none;
-    left: 0;
-    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
+    .content-title-group h2 {
+        border-left: 16px solid #00b3e6;
+        border-bottom: 2px solid #00b3e6;
+        padding-left: 8px;
+        padding-right: 16px;
+        display: inline-block;
+        text-transform: uppercase;
+        color: #555;
+        letter-spacing: 0;
+    }
+
+        .content-title-group h2:hover {
+            color: #00b3e6;
+        }
+
+    .content-title-group button.button {
+        border: 0;
+        color: #999;
+    }
+
+        .content-title-group button.button:hover {
+            color: #00b3e6;
+        }
+
+ul.list {
+    box-shadow: none;
 }
 
-#blazor-error-ui .dismiss {
+div.card-content {
+    background-color: #fafafa;
+}
+
+    div.card-content .name {
+        font-size: 28px;
+        color: #000;
+    }
+
+    div.card-content .description {
+        font-size: 20px;
+        color: #999;
+    }
+
+.card {
+    margin-bottom: 2em;
+}
+
+label.label {
+    font-weight: 400;
+}
+
+p.card-header-title {
+    background-color: #00b3e6;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #fff;
+    display: block;
+    padding-left: 24px;
+}
+
+.card-footer button {
+    font-size: 16px;
+    color: #888;
+}
+
+    .card-footer button i {
+        margin-right: 10px;
+    }
+
+    .card-footer button:hover {
+        color: #00b3e6;
+    }
+
+.modal-card-foot button {
+    display: inline-block;
+    width: 80px;
+}
+
+.modal-card-body,
+.modal-card-head {
+    text-align: center;
+}
+
+.field {
+    margin-bottom: 0.75rem;
+}
+
+.navbar-burger {
+    margin-left: auto;
+}
+
+button.link {
+    background: none;
+    border: none;
     cursor: pointer;
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem;
 }
 
-@media (max-width: 767.98px) {
-    .main .top-row:not(.auth) {
-        display: none;
-    }
-
-    .main .top-row.auth {
-        justify-content: space-between;
-    }
-
-    .main .top-row a, .main .top-row .btn-link {
-        margin-left: 0;
-    }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-@media (min-width: 768px) {
-    app {
-        flex-direction: row;
-    }
-
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-    }
-
-    .main .top-row {
-        position: sticky;
-        top: 0;
-    }
-
-    .main > div {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
-
-    .navbar-toggler {
-        display: none;
-    }
-
-    .sidebar .collapse {
-        /* Never collapse the sidebar for wide screens */
-        display: block;
-    }
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
