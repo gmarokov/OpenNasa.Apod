@@ -7,11 +7,20 @@ on:
   push:
     branches:
       - main
+    paths:
+      - src/Api/**
+      - .github/**
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+    paths:
+      - src/Api/**
   workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: 'v5.0'  # set this to the dotnet version to use
+  DOTNET_VERSION: 'v1.2.3'  # set this to the dotnet version to use
 
 jobs:
   build-and-deploy:
