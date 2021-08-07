@@ -1,16 +1,16 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 
-namespace Api
+namespace OpenNasa.Apod.Api
 {
   public class ProductsGet
   {
-    private readonly IProductData productData;
+    private readonly IApodPicturesData productData;
 
-    public ProductsGet(IProductData productData)
+    public ProductsGet(IApodPicturesData productData)
     {
       this.productData = productData;
     }

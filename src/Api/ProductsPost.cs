@@ -6,15 +6,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text.Json;
-using Data;
+using OpenNasa.Apod.Shared;
 
-namespace Api
+namespace OpenNasa.Apod.Api
 {
     public class ProductsPost
     {
-        private readonly IProductData productData;
+        private readonly IApodPicturesData productData;
 
-        public ProductsPost(IProductData productData)
+        public ProductsPost(IApodPicturesData productData)
         {
             this.productData = productData;
         }
@@ -25,7 +25,7 @@ namespace Api
             ILogger log)
         {
             var body = await new StreamReader(req.Body).ReadToEndAsync();
-            var product = JsonSerializer.Deserialize<Product>(body, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            var product = JsonSerializer.Deserialize<ApodPicture>(body, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
             var newProduct = await productData.AddProduct(product);
             return new OkObjectResult(newProduct);

@@ -5,13 +5,13 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Api
+namespace OpenNasa.Apod.Api
 {
     public class ProductsDelete
     {
-        private readonly IProductData productData;
+        private readonly IApodPicturesData productData;
 
-        public ProductsDelete(IProductData productData)
+        public ProductsDelete(IApodPicturesData productData)
         {
             this.productData = productData;
         }
