@@ -6,10 +6,14 @@ namespace OpenNasa.Apod.Shared
     {
         public DateTime Date { get; set; }
 
-        public int TemperatureC { get; set; }
+        public string Explanation { get; set; }
 
-        public string Summary { get; set; }
+        public string Hdurl { get; set; }
 
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public string MediaType { get; set; }
+
+        public string Title { get; set; }
+
+        public string Url { get; set; }
     }
 }

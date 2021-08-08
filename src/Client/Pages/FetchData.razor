@@ -26,9 +26,11 @@ else
             {
                 <tr>
                     <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@forecast.Explanation</td>
+                    <td>@forecast.MediaType</td>
+                    <td>@forecast.Title</td>
+                    <td><a href="@forecast.Hdurl">HD URL</a></td>
+                    <td><img src="@forecast.Url" /></td>
                 </tr>
             }
         </tbody>
@@ -40,7 +42,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<ApodPicture[]>("WeatherForecast");
+        forecasts = await Http.GetFromJsonAsync<ApodPicture[]>("api/pictures");
     }
 
 }

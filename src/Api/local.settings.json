@@ -2,7 +2,8 @@
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "Nasa_Api_Key": "aaWpJZiTQj2ZeEZNBRPsziEx1MfyuCUhXoNKmJnT"
   },
   "Host": {
     "CORS": "*"
