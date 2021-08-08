@@ -14,6 +14,7 @@ namespace OpenNasa.Apod.Api
     {
         private readonly IApodPicturesData productData;
         private static readonly string API_URL = "https://api.nasa.gov/planetary/apod";
+        private static readonly int DEFAULT_ITEMS_PER_PAGE = 10;
 
         public GetPictures(IApodPicturesData productData)
         {
@@ -31,13 +32,13 @@ namespace OpenNasa.Apod.Api
             };
 
             //TODO: Filters?
-            var response = await client.GetAsync($"?api_key={apiKey}");
+            var response = await client.GetAsync($"?api_key={apiKey}&count={DEFAULT_ITEMS_PER_PAGE}");
             //TODO: List of images?
-            var pic = await response.Content.ReadAsAsync<ApodPictureDto>();
-            
-            var list = new List<ApodPicture>()
+            var pics = await response.Content.ReadAsAsync<List<ApodPictureDto>>();
+            var pictureForResponse = new List<ApodPicture>();
+            foreach (var pic in pics)
             {
-                new ApodPicture()
+                pictureForResponse.Add(new ApodPicture()
                 {
                     Date = pic.Date,
                     Explanation = pic.Explanation,
@@ -45,10 +46,10 @@ namespace OpenNasa.Apod.Api
                     MediaType = pic.MediaType,
                     Title = pic.Title,
                     Url = pic.Url
-                }
-            };
+                });
+            }
 
-            return new OkObjectResult(list);
+            return new OkObjectResult(pictureForResponse);
         }
     }
 }
