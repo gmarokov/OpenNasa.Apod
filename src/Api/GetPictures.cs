@@ -42,7 +42,7 @@ namespace OpenNasa.Apod.Api
                 {
                     Date = pic.Date,
                     Explanation = pic.Explanation,
-                    Hdurl = pic.Hdurl,
+                    HdUrl = pic.HdUrl,
                     MediaType = pic.MediaType,
                     Title = pic.Title,
                     Url = pic.Url

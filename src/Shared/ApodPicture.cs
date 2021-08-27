@@ -8,7 +8,7 @@ namespace OpenNasa.Apod.Shared
 
         public string Explanation { get; set; }
 
-        public string Hdurl { get; set; }
+        public string HdUrl { get; set; }
 
         public string MediaType { get; set; }
 
