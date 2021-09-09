@@ -31,7 +31,7 @@ else
                     <div class="col">
                         <div class="form-floating">
                             <DateRangePicker class="form-control" id="floatingDateRange"
-                                             MinDate="@DateTimeOffset.ParseExact(firstDatePosted, "yyyy-MM-dd", null)"
+                                             MinDate="@DateTimeOffset.ParseExact(ApodConstants.FirstDateApodPost, "yyyy-MM-dd", null)"
                                              MaxDate="DateTimeOffset.Now"
                                              @bind-StartDate="StartDate"
                                              @bind-EndDate="EndDate"
@@ -61,20 +61,45 @@ else
         @foreach (var pic in pictures)
         {
             <div class="grid-item">
-                <img src="@pic.Url" />
-                @pic.Date.ToShortDateString()
-                @pic.Explanation
-                @pic.MediaType
-                @pic.Title
-                <a href="@pic.HdUrl">HD URL</a>
+                @if (pic.MediaType == "video")
+                {
+                    <iframe alt="@pic.Title" src="@pic.Url"></iframe>
+                }
+                else
+                {
+                    <img alt="@pic.Title" src="@pic.Url" />
+                }
+                <div class="container">
+                    <h3>@pic.Title</h3>
+                    @@@pic.Date.ToShortDateString()
+                    @if (!string.IsNullOrEmpty(pic.Copyright))
+                    {
+                        <text> by </text> @pic.Copyright
+                    }
+                    <p>
+                        @pic.Explanation
+                        @if (!string.IsNullOrEmpty(pic.HdUrl))
+                        {
+                            <br />
+                            <a target="_blank" href="@pic.HdUrl">HD URL</a>
+                        }
+                    </p>
+                </div>
             </div>
         }
     </div>
 }
 
+<div class="footer container text-center">
+    <div>
+        Powered by <a href="https://github.com/nasa/apod-api">NASA Open API</a>,
+        <a href="https://azure.microsoft.com/en-us/">Azure</a> and
+        <a href="https://github.com">GitHub</a>
+    </div>
+</div>
+
 @code {
     static List<string> randomNumbers = new List<string>() { "10", "25", "50", "100" };
-    static string firstDatePosted = "1995-06-16";
     ApodPicture[] pictures;
     string SelectedString;
     bool isLoading = false;
@@ -97,7 +122,6 @@ else
     {
         isLoading = true;
         SelectedString = e.Value.ToString();
-        Console.WriteLine(SelectedString);
         await GetImages(int.Parse(SelectedString));
         isLoading = false;
     }

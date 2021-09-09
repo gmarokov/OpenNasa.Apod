@@ -27,6 +27,9 @@ namespace OpenNasa.Apod.Api
 
             [JsonProperty("url")]
             public string Url { get; set; }
+
+            [JsonProperty("copyright")]
+            public string Copyright { get; set; }
         }
     }
 }

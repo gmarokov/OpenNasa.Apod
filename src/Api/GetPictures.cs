@@ -14,14 +14,8 @@ namespace OpenNasa.Apod.Api
 {
     public partial class GetPictures
     {
-        private readonly IApodPicturesData productData;
         private static readonly string API_URL = "https://api.nasa.gov/planetary/apod";
         private static readonly int DEFAULT_ITEMS_PER_PAGE = 10;
-
-        public GetPictures(IApodPicturesData productData)
-        {
-            this.productData = productData;
-        }
 
         [FunctionName("GetPictures")]
         public async Task<IActionResult> Run(
@@ -34,11 +28,15 @@ namespace OpenNasa.Apod.Api
             };
             var baseQuery = $"?api_key={apiKey}";
 
-            if(req.Query.TryGetValue("startDate", out StringValues startDateStr) && req.Query.TryGetValue("endDate", out StringValues endDateStr))
+            if (req.Query.TryGetValue("startDate", out StringValues startDateStr) && req.Query.TryGetValue("endDate", out StringValues endDateStr))
             {
                 var startDate = DateTime.Parse(startDateStr);
                 var endDate = DateTime.Parse(endDateStr);
-                //TODO: Validation of the filter max and min
+                if (startDate <= DateTime.Parse(ApodConstants.FirstDateApodPost))
+                {
+                    return new BadRequestObjectResult("No images are available before that given range");
+                }
+
                 baseQuery += $"&start_date={startDate.Year}-{startDate.Month}-{startDate.Day}&end_date={endDate.Year}-{endDate.Month}-{endDate.Day}";
             }
             else if (req.Query.TryGetValue("count", out StringValues count))
@@ -49,22 +47,22 @@ namespace OpenNasa.Apod.Api
             {
                 baseQuery += $"&count={DEFAULT_ITEMS_PER_PAGE}";
             }
-            
+
             var response = await client.GetAsync(baseQuery);
             var pics = await response.Content.ReadAsAsync<List<ApodPictureDto>>();
-            var pictureForResponse = new List<ApodPicture>();
-            foreach (var pic in pics.OrderByDescending(x => x.Date))
-            {
-                pictureForResponse.Add(new ApodPicture()
+            var pictureForResponse = pics
+                .OrderByDescending(x => x.Date)
+                .Select(x => new ApodPicture()
                 {
-                    Date = pic.Date,
-                    Explanation = pic.Explanation,
-                    HdUrl = pic.HdUrl,
-                    MediaType = pic.MediaType,
-                    Title = pic.Title,
-                    Url = pic.Url
-                });
-            }
+                    Date = x.Date,
+                    Explanation = x.Explanation,
+                    HdUrl = x.HdUrl,
+                    MediaType = x.MediaType,
+                    Title = x.Title,
+                    Url = x.Url,
+                    Copyright = x.Copyright
+                })
+                .ToList();
 
             return new OkObjectResult(pictureForResponse);
         }
