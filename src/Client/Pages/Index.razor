@@ -1,45 +1,119 @@
 ﻿@page "/"
 @using OpenNasa.Apod.Shared
+@using System
 @inject HttpClient Http
 @inject IJSRuntime JS
+@using BlazorDateRangePicker
 
-
-    @if (pictures == null)
-    {
-        <div class="text-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden"></span>
+@if (pictures == null || isLoading)
+{
+    <div class="text-center loader">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden"></span>
+        </div>
+        <br />
+        <span>Loading awesome APOD...</span>
+    </div>
+}
+else
+{
+    <div class="grid">
+        <div id="menu" class="stamp">
+            <div id="intro" class="text-center">
+                <a href="/">
+                    <img alt="Nasa Logo" width="200" src="/nasa-logo.png" />
+                    <h1>Astronomy picture of the day</h1>
+                    <small class="text-muted">Powered by NASA Open API</small>
+                </a>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-floating">
+                            <DateRangePicker class="form-control" id="floatingDateRange"
+                                             MinDate="@DateTimeOffset.ParseExact(firstDatePosted, "yyyy-MM-dd", null)"
+                                             MaxDate="DateTimeOffset.Now"
+                                             @bind-StartDate="StartDate"
+                                             @bind-EndDate="EndDate"
+                                             OnRangeSelect="OnRangeSelect" />
+                            <label for="floatingDateRange">Date range for images</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <select @onchange="ChangeRandomImageNumber"
+                                    class="form-select"
+                                    id="floatingRandomImages"
+                                    aria-label="Number of random images">
+                                <option value="">Select for random images</option>
+                                @foreach (var number in randomNumbers)
+                                {
+                                    <option selected="@(number == SelectedString)" value=@number>@number</option>
+                                }
+                            </select>
+                            <label for="floatingRandomImages">Number of random images</label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    }
-    else
-    {
-        <div class="grid">
-            <div class="grid-sizer"></div>
-            @foreach (var pic in pictures)
-            {
-                <div class="grid-item">
-                    @* @pic.Date.ToShortDateString()
-                    @pic.Explanation
-                    @pic.MediaType
-                    @pic.Title
-                    <a href="@pic.HdUrl">HD URL</a> *@
-                    <img src="@pic.Url" />
-                </div>
-            }
-        </div>
-    }
+        <div class="grid-sizer"></div>
+        @foreach (var pic in pictures)
+        {
+            <div class="grid-item">
+                <img src="@pic.Url" />
+                @pic.Date.ToShortDateString()
+                @pic.Explanation
+                @pic.MediaType
+                @pic.Title
+                <a href="@pic.HdUrl">HD URL</a>
+            </div>
+        }
+    </div>
+}
 
 @code {
-    private ApodPicture[] pictures;
+    static List<string> randomNumbers = new List<string>() { "10", "25", "50", "100" };
+    static string firstDatePosted = "1995-06-16";
+    ApodPicture[] pictures;
+    string SelectedString;
+    bool isLoading = false;
+    DateTimeOffset? StartDate { get; set; } = DateTime.Today.AddDays(-9);
+    DateTimeOffset? EndDate { get; set; } = DateTime.Today;
 
     protected override async Task OnInitializedAsync()
     {
-        pictures = await Http.GetFromJsonAsync<ApodPicture[]>("api/pictures");
-        if(pictures != null)
+        await GetImages(StartDate.Value.Date.ToShortDateString(), EndDate.Value.Date.ToShortDateString());
+    }
+
+    async Task OnRangeSelect(DateRange range)
+    {
+        isLoading = true;
+        await GetImages(StartDate.Value.Date.ToShortDateString(), EndDate.Value.Date.ToShortDateString());
+        isLoading = false;
+    }
+
+    async Task ChangeRandomImageNumber(ChangeEventArgs e)
+    {
+        isLoading = true;
+        SelectedString = e.Value.ToString();
+        Console.WriteLine(SelectedString);
+        await GetImages(int.Parse(SelectedString));
+        isLoading = false;
+    }
+
+    async Task GetImages(string startDate, string endDate) =>
+        await GetImagesInternal($"startDate={startDate}&endDate={endDate}");
+
+    async Task GetImages(int count) =>
+        await GetImagesInternal($"count={count}");
+
+    async Task GetImagesInternal(string queryString)
+    {
+        pictures = await Http.GetFromJsonAsync<ApodPicture[]>($"api/pictures?{queryString}");
+        if (pictures != null)
         {
             await JS.InvokeVoidAsync("displayGallery");
         }
     }
 }
-

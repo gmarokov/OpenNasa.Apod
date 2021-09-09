@@ -7,6 +7,8 @@ using System.Net.Http;
 using System;
 using OpenNasa.Apod.Shared;
 using System.Collections.Generic;
+using Microsoft.Extensions.Primitives;
+using System.Linq;
 
 namespace OpenNasa.Apod.Api
 {
@@ -30,13 +32,28 @@ namespace OpenNasa.Apod.Api
             {
                 BaseAddress = new Uri(API_URL)
             };
+            var baseQuery = $"?api_key={apiKey}";
 
-            //TODO: Filters?
-            var response = await client.GetAsync($"?api_key={apiKey}&count={DEFAULT_ITEMS_PER_PAGE}");
-            //TODO: List of images?
+            if(req.Query.TryGetValue("startDate", out StringValues startDateStr) && req.Query.TryGetValue("endDate", out StringValues endDateStr))
+            {
+                var startDate = DateTime.Parse(startDateStr);
+                var endDate = DateTime.Parse(endDateStr);
+                //TODO: Validation of the filter max and min
+                baseQuery += $"&start_date={startDate.Year}-{startDate.Month}-{startDate.Day}&end_date={endDate.Year}-{endDate.Month}-{endDate.Day}";
+            }
+            else if (req.Query.TryGetValue("count", out StringValues count))
+            {
+                baseQuery += $"&count={count}";
+            }
+            else
+            {
+                baseQuery += $"&count={DEFAULT_ITEMS_PER_PAGE}";
+            }
+            
+            var response = await client.GetAsync(baseQuery);
             var pics = await response.Content.ReadAsAsync<List<ApodPictureDto>>();
             var pictureForResponse = new List<ApodPicture>();
-            foreach (var pic in pics)
+            foreach (var pic in pics.OrderByDescending(x => x.Date))
             {
                 pictureForResponse.Add(new ApodPicture()
                 {

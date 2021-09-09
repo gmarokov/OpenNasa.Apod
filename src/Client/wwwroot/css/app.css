@@ -1,13 +1,20 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Titillium Web', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: black;
+}
+
+html {
+    overflow-y: scroll;
 }
 
 a, .btn-link {
     color: #0366d6;
 }
-
 
 #app {
     position: relative;
@@ -28,6 +35,7 @@ a, .btn-link {
     .main .top-row {
         border-bottom: 1px solid #d6d5d5;
     }
+
         .main .top-row > a, .main .top-row .btn-link {
             white-space: nowrap;
         }
@@ -36,10 +44,6 @@ a, .btn-link {
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
-.content {
-    padding-top: 1.1rem;
-}
 
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
@@ -51,6 +55,39 @@ a, .btn-link {
 
 .validation-message {
     color: red;
+}
+
+.loader {
+    margin-top: 25%;
+    color: white;
+}
+
+label {
+    color: white;
+}
+
+.form-control, .form-select {
+    color: white;
+    background-color: transparent;
+    border-radius: 0;
+}
+
+option:not(:checked) {
+    color: white !important;
+    background-color: black !important;
+}
+
+option:checked {
+    color: white !important;
+    background-color: black !important;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+}
+
+.form-control:focus, .form-select:focus {
+    color: white;
+    background-color: transparent;
 }
 
 #blazor-error-ui {
@@ -73,25 +110,59 @@ a, .btn-link {
     }
 
 /* ----- Grid ----- */
+.stamp {
+    position: absolute;
+    background: #131862;
+}
+
+#menu {
+    left: 00%;
+    top: 0px;
+    width: 33.33%;
+    background: #000 url(https://www.nasa.gov/sites/all/themes/custom/nasatwo/images/starfield-banner.jpg);
+    height: 370px;
+}
+
+#intro {
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+}
+
+    #intro img {
+        margin-bottom: .5em;
+    }
+
+    #intro a {
+        text-decoration: none;
+    }
+
+    #intro h1 {
+        font-size: 1.8em;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: white;
+    }
+
 .grid:after {
     content: '';
     display: block;
     clear: both;
-  }
-  
-  .grid-sizer,
-  .grid-item {
+}
+
+.grid-sizer,
+.grid-item {
     width: 33.333%;
-  }
-  
-  .grid-item {
+    color: white;
+}
+
+.grid-item {
     float: left;
-  }
-  
-  .grid-item img {
-    display: block;
-    max-width: 100%;
-  }
+}
+
+    .grid-item img {
+        display: block;
+        max-width: 100%;
+    }
 
 /* ---- Media queries ----- */
 @media (max-width: 767.98px) {

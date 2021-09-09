@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -10,6 +10,11 @@
     <link href="css/app.css" rel="stylesheet" />
     <link href="manifest.json" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <script src="_content/BlazorDateRangePicker/clickAndPositionHandler.js"></script>
+    <link rel="stylesheet" href="_content/BlazorDateRangePicker/daterangepicker.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -35,7 +40,8 @@
                     $grid.masonry({
                         itemSelector: '.grid-item',
                         percentPosition: true,
-                        columnWidth: '.grid-sizer'
+                        columnWidth: '.grid-sizer',
+                        stamp: '.stamp'
                     });
                 });
             });
