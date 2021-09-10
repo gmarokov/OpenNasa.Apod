@@ -106,10 +106,8 @@ else
     DateTimeOffset? StartDate { get; set; } = DateTime.Today.AddDays(-9);
     DateTimeOffset? EndDate { get; set; } = DateTime.Today;
 
-    protected override async Task OnInitializedAsync()
-    {
+    protected override async Task OnInitializedAsync() =>
         await GetImages(StartDate.Value.Date.ToShortDateString(), EndDate.Value.Date.ToShortDateString());
-    }
 
     async Task OnRangeSelect(DateRange range)
     {
