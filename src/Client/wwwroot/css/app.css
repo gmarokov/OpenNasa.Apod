@@ -190,6 +190,13 @@ iframe {
     .main .top-row.auth {
         justify-content: space-between;
     }
+    .grid-sizer,
+    .grid-item {
+        width: 100%;
+    }
+    #menu {
+        width: 100%;
+    }
 }
 
 @media (min-width: 768px) {
