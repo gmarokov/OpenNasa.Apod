@@ -185,17 +185,67 @@ iframe {
         margin-top: .3em;
     }
 
+/* --- Datepicker ---*/
+.daterangepicker {
+    background-color: transparent !important;
+}
+
+.cancelBtn {
+    color: white !important;
+    border: 1px solid white !important;
+}
+
+.drp-calendar,
+.monthselect,
+.yearselect,
+.daterangepicker td.off,
+.daterangepicker td.off.in-range,
+.daterangepicker td.off.start-date,
+.daterangepicker td.off.end-date,
+.daterangepicker .calendar-table {
+    color: white !important;
+    background-color: transparent !important;
+}
+
+    .daterangepicker .calendar-table .next span, .daterangepicker .calendar-table .prev span {
+        border: solid white !important;
+        border-width: 0 2px 2px 0 !important;
+        border-radius: 0 !important;
+    }
+
+    .daterangepicker .calendar-table .next:hover, .daterangepicker .calendar-table .prev:hover {
+        background-color: transparent !important;
+        border: 1px solid white !important;
+    }
+
+.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+    background-color: white !important;
+    color: black !important;
+}
+
+
 /* ---- Media queries ----- */
 @media (max-width: 767.98px) {
     .main .top-row.auth {
         justify-content: space-between;
     }
+
     .grid-sizer,
     .grid-item {
         width: 100%;
     }
+
     #menu {
         width: 100%;
+        margin-bottom: 1em;
+    }
+
+    .form-control, .form-select {
+        font-size: 0.7em;
+    }
+
+    label {
+        font-size: .7em;
     }
 }
 
