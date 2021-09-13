@@ -14,41 +14,32 @@ namespace OpenNasa.Apod.Api
 {
     public partial class GetPictures
     {
-        private static readonly string API_URL = "https://api.nasa.gov/planetary/apod";
-        private static readonly int DEFAULT_ITEMS_PER_PAGE = 10;
+        private const string API_URL = "https://api.nasa.gov/planetary/apod";
+        private const int DEFAULT_ITEMS_PER_PAGE = 10;
 
+        /// <summary>
+        /// Get images function for retrieving the list of images based by filters
+        /// </summary>
+        /// <param name="req"><see cref="HttpRequest"/></param>
+        /// <returns>List of images</returns>
         [FunctionName("GetPictures")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "pictures")] HttpRequest req)
         {
-            var apiKey = Environment.GetEnvironmentVariable("Nasa_Api_Key", EnvironmentVariableTarget.Process);
             var client = new HttpClient
             {
                 BaseAddress = new Uri(API_URL)
             };
-            var baseQuery = $"?api_key={apiKey}";
 
-            if (req.Query.TryGetValue("startDate", out StringValues startDateStr) && req.Query.TryGetValue("endDate", out StringValues endDateStr))
-            {
-                var startDate = DateTime.Parse(startDateStr);
-                var endDate = DateTime.Parse(endDateStr);
-                if (startDate <= DateTime.Parse(ApodConstants.FirstDateApodPost))
-                {
-                    return new BadRequestObjectResult("No images are available before that given range");
-                }
+            var query = ExtractQueryString(req);
+            var response = await client.GetAsync(query);
+            var pictures = await ParseImages(response);
 
-                baseQuery += $"&start_date={startDate.Year}-{startDate.Month}-{startDate.Day}&end_date={endDate.Year}-{endDate.Month}-{endDate.Day}";
-            }
-            else if (req.Query.TryGetValue("count", out StringValues count))
-            {
-                baseQuery += $"&count={count}";
-            }
-            else
-            {
-                baseQuery += $"&count={DEFAULT_ITEMS_PER_PAGE}";
-            }
+            return new OkObjectResult(pictures);
+        }
 
-            var response = await client.GetAsync(baseQuery);
+        private static async Task<List<ApodPicture>> ParseImages(HttpResponseMessage response)
+        {
             var pics = await response.Content.ReadAsAsync<List<ApodPictureDto>>();
             var pictureForResponse = pics
                 .OrderByDescending(x => x.Date)
@@ -64,7 +55,33 @@ namespace OpenNasa.Apod.Api
                 })
                 .ToList();
 
-            return new OkObjectResult(pictureForResponse);
+            return pictureForResponse;
+        }
+
+        private static string ExtractQueryString(HttpRequest req)
+        {
+            var apiKey = Environment.GetEnvironmentVariable("Nasa_Api_Key", EnvironmentVariableTarget.Process);
+            var baseQuery = $"?api_key={apiKey}";
+
+            if (req.Query.TryGetValue("startDate", out StringValues startDateStr) && req.Query.TryGetValue("endDate", out StringValues endDateStr))
+            {
+                var startDate = DateTime.Parse(startDateStr);
+                var endDate = DateTime.Parse(endDateStr);
+                if (startDate <= DateTime.Parse(ApodConstants.FirstDateApodPost))
+                    throw new ArgumentException("No images are available before that given range");
+
+                baseQuery += $"&start_date={startDate.Year}-{startDate.Month}-{startDate.Day}&end_date={endDate.Year}-{endDate.Month}-{endDate.Day}";
+            }
+            else if (req.Query.TryGetValue("count", out StringValues count))
+            {
+                baseQuery += $"&count={count}";
+            }
+            else
+            {
+                baseQuery += $"&count={DEFAULT_ITEMS_PER_PAGE}";
+            }
+
+            return baseQuery;
         }
     }
 }

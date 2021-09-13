@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace OpenNasa.Apod.Api
 {
+    /// <summary>
+    /// Date transfer object used for parsing the NASA API response
+    /// </summary>
     public partial class GetPictures
     {
         public class ApodPictureDto

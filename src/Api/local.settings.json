@@ -3,7 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "Nasa_Api_Key": "aaWpJZiTQj2ZeEZNBRPsziEx1MfyuCUhXoNKmJnT"
+    "Nasa_Api_Key": "PUT_YOUR_API_KEY_HERE"
   },
   "Host": {
     "CORS": "*"
